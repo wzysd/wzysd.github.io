@@ -1,0 +1,25 @@
+# Hugo
+/public/
+/resources/_gen/
+/assets/jsconfig.json
+hugo.exe
+hugo.darwin
+hugo.linux
+hugo_stats.json
+
+# Node
+node_modules/
+
+# OS
+Thumbs.db
+.DS_Store
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Temporary files
+*.tmp
+*.temp

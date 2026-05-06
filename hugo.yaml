@@ -64,6 +64,11 @@ params:
   analytics:
     google:
       SiteVerificationTag: ""
+    fathom: null
+    plausible: null
+    goatcounter: null
+
+  googleAnalytics: G-03QP72WMM2
 
   cover:
     hidden: true

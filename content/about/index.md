@@ -3,7 +3,9 @@ title: "关于"
 date: 2026-05-06
 ---
 
-![头像](/images/avatar.png){: width="150" height="150" .center}
+<div style="text-align: center;">
+  <img src="/images/avatar.png" alt="头像" width="150" height="150" style="border-radius: 50%;">
+</div>
 
 ## 关于我
 

@@ -3,6 +3,8 @@ title: "关于"
 date: 2026-05-06
 ---
 
+![头像](/images/avatar.png){: width="150" height="150" .center}
+
 ## 关于我
 
 你好！我是 wzy，一名热爱学习的研究者。

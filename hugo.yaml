@@ -49,8 +49,8 @@ params:
     apple_touch_icon: "/apple-touch-icon.png"
 
   label:
-    text: "wzy的博客"
-    icon: /apple-touch-icon.png
+    text: ""
+    icon: /images/logo.png
     iconHeight: 35
 
   homeInfoParams:

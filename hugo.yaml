@@ -91,14 +91,14 @@ params:
 
 menu:
   main:
+    - identifier: home
+      name: 主页
+      url: /
+      weight: 1
     - identifier: posts
       name: 文章
       url: /posts/
       weight: 10
-    - identifier: courses
-      name: 课程
-      url: /courses/
-      weight: 20
     - identifier: archives
       name: 归档
       url: /archives/
@@ -107,6 +107,8 @@ menu:
       name: 搜索
       url: /search/
       weight: 40
+      params:
+        type: search
     - identifier: about
       name: 关于
       url: /about/

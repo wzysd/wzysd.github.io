@@ -15,3 +15,75 @@
     });
 </script>
 {{- end -}}
+
+<!-- 阅读进度条 -->
+<style>
+.reading-progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary), var(--secondary));
+    z-index: 9999;
+    transition: width 0.1s ease;
+}
+</style>
+<div class="reading-progress-bar" id="reading-progress"></div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const progressBar = document.getElementById('reading-progress');
+
+    function updateProgress() {
+        const scrollTop = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const progress = (scrollTop / docHeight) * 100;
+        progressBar.style.width = progress + '%';
+    }
+
+    window.addEventListener('scroll', updateProgress);
+    updateProgress();
+});
+</script>
+
+<!-- 复制成功提示 -->
+<style>
+.copy-success-toast {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--primary);
+    color: var(--theme);
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    z-index: 9999;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+.copy-success-toast.show {
+    opacity: 1;
+}
+</style>
+<div class="copy-success-toast" id="copy-toast">复制成功！</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const toast = document.getElementById('copy-toast');
+
+    // 监听代码复制按钮点击
+    document.addEventListener('click', function(e) {
+        if (e.target.closest('.copy-code')) {
+            setTimeout(() => {
+                toast.classList.add('show');
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 2000);
+            }, 100);
+        }
+    });
+});
+</script>

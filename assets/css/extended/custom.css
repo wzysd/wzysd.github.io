@@ -16,25 +16,21 @@
 }
 
 /* 文章目录右侧悬浮样式 */
-@media (min-width: 1280px) {
-    .post-content {
-        position: relative;
-    }
-
+@media (min-width: 1400px) {
     .toc {
-        position: fixed;
-        top: 80px;
-        right: 20px;
-        width: 250px;
-        max-height: calc(100vh - 100px);
-        overflow-y: auto;
-        background: var(--theme);
-        border: 1px solid var(--border);
-        border-radius: 8px;
-        padding: 16px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        z-index: 100;
-        font-size: 14px;
+        position: fixed !important;
+        top: 80px !important;
+        right: 20px !important;
+        width: 220px !important;
+        max-height: calc(100vh - 100px) !important;
+        overflow-y: auto !important;
+        background: var(--theme) !important;
+        border: 1px solid var(--border) !important;
+        border-radius: 8px !important;
+        padding: 16px !important;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+        z-index: 100 !important;
+        font-size: 14px !important;
     }
 
     .toc::-webkit-scrollbar {
@@ -81,17 +77,16 @@
         padding-left: 12px;
         margin-top: 4px;
     }
-
-    /* 调整文章内容区域，为目录留出空间 */
-    .main {
-        max-width: calc(var(--main-width) + var(--gap) * 2 - 270px);
-    }
 }
 
-/* 移动端隐藏悬浮目录 */
-@media (max-width: 1279px) {
+/* 移动端和小屏幕隐藏悬浮目录 */
+@media (max-width: 1399px) {
     .toc {
-        display: none;
+        position: relative !important;
+        top: auto !important;
+        right: auto !important;
+        width: 100% !important;
+        max-height: none !important;
     }
 }
 

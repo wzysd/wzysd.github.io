@@ -107,16 +107,16 @@ menu:
       name: 资源共享
       url: /resources/
       weight: 35
-    - identifier: search
-      name: 搜索
-      url: /search/
-      weight: 40
-      params:
-        type: search
     - identifier: about
       name: 关于
       url: /about/
       weight: 50
+    - identifier: search
+      name: 搜索
+      url: /search/
+      weight: 60
+      params:
+        type: search
 
 outputs:
   home:

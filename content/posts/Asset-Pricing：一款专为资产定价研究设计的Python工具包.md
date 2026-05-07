@@ -1,4 +1,10 @@
-# Asset-Pricing：一款专为资产定价研究设计的Python工具包
+---
+title: "Asset-Pricing：一款专为资产定价研究设计的Python工具包"
+date: 2026-05-07
+draft: false
+tags: ["Asset Pricing"]
+categories: ["Asset Pricing"]
+---
 
 ## 前言
 

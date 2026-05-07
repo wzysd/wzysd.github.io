@@ -1,0 +1,263 @@
+<!-- 搜索模态框 -->
+<div id="search-modal" class="search-modal" style="display: none;">
+    <div class="search-modal-overlay" onclick="closeSearchModal()"></div>
+    <div class="search-modal-content">
+        <div class="search-modal-header">
+            <input id="modal-search-input" type="search" placeholder="输入关键词搜索..." autocomplete="off">
+            <button class="search-modal-close" onclick="closeSearchModal()" aria-label="关闭">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+        <ul id="modal-search-results" class="search-modal-results"></ul>
+    </div>
+</div>
+
+<style>
+.search-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+}
+
+.search-modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(2px);
+}
+
+.search-modal-content {
+    position: absolute;
+    top: 15%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 600px;
+    max-height: 70vh;
+    background: var(--theme);
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.search-modal-header {
+    display: flex;
+    align-items: center;
+    padding: 16px;
+    border-bottom: 1px solid var(--border);
+    gap: 12px;
+}
+
+#modal-search-input {
+    flex: 1;
+    padding: 12px 16px;
+    font-size: 16px;
+    border: 2px solid var(--tertiary);
+    border-radius: 8px;
+    background: var(--entry);
+    color: var(--primary);
+    outline: none;
+}
+
+#modal-search-input:focus {
+    border-color: var(--secondary);
+}
+
+.search-modal-close {
+    padding: 8px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    color: var(--secondary);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.search-modal-close:hover {
+    background: var(--tertiary);
+}
+
+.search-modal-results {
+    list-style: none;
+    margin: 0;
+    padding: 8px;
+    overflow-y: auto;
+    max-height: calc(70vh - 80px);
+}
+
+.search-modal-results li {
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin-bottom: 4px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.search-modal-results li:hover {
+    background: var(--entry);
+}
+
+.search-modal-results li a {
+    display: block;
+    color: var(--primary);
+    text-decoration: none;
+}
+
+.search-modal-results li .search-result-title {
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.search-modal-results li .search-result-summary {
+    font-size: 14px;
+    color: var(--secondary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.search-modal-empty {
+    padding: 40px;
+    text-align: center;
+    color: var(--secondary);
+}
+
+/* 搜索图标按钮样式 */
+#menu .search-icon-btn {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+#menu .search-icon-btn svg {
+    width: 18px;
+    height: 18px;
+}
+</style>
+
+<script>
+let searchIndex = null;
+
+// 加载搜索索引
+async function loadSearchIndex() {
+    if (searchIndex) return searchIndex;
+    try {
+        const response = await fetch('/index.json');
+        searchIndex = await response.json();
+        return searchIndex;
+    } catch (e) {
+        console.error('加载搜索索引失败:', e);
+        return [];
+    }
+}
+
+// 打开搜索模态框
+async function openSearchModal() {
+    const modal = document.getElementById('search-modal');
+    modal.style.display = 'block';
+    document.body.style.overflow = 'hidden';
+
+    const input = document.getElementById('modal-search-input');
+    input.value = '';
+    input.focus();
+
+    await loadSearchIndex();
+    document.getElementById('modal-search-results').innerHTML = '';
+}
+
+// 关闭搜索模态框
+function closeSearchModal() {
+    const modal = document.getElementById('search-modal');
+    modal.style.display = 'none';
+    document.body.style.overflow = '';
+}
+
+// 执行搜索
+async function performSearch(query) {
+    if (!query || query.trim().length < 1) {
+        document.getElementById('modal-search-results').innerHTML = '';
+        return;
+    }
+
+    const index = await loadSearchIndex();
+    const results = index.filter(item => {
+        const titleMatch = item.title && item.title.toLowerCase().includes(query.toLowerCase());
+        const contentMatch = item.content && item.content.toLowerCase().includes(query.toLowerCase());
+        const tagsMatch = item.tags && item.tags.some(tag => tag.toLowerCase().includes(query.toLowerCase()));
+        return titleMatch || contentMatch || tagsMatch;
+    }).slice(0, 10);
+
+    const resultsContainer = document.getElementById('modal-search-results');
+
+    if (results.length === 0) {
+        resultsContainer.innerHTML = '<div class="search-modal-empty">未找到相关内容</div>';
+        return;
+    }
+
+    resultsContainer.innerHTML = results.map(item => `
+        <li onclick="window.location.href='${item.permalink}'">
+            <a href="${item.permalink}">
+                <div class="search-result-title">${item.title || '无标题'}</div>
+                <div class="search-result-summary">${(item.content || '').substring(0, 100)}...</div>
+            </a>
+        </li>
+    `).join('');
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    // 将搜索菜单项替换为放大镜图标
+    const menu = document.getElementById('menu');
+    if (menu) {
+        const searchItem = menu.querySelector('a[href*="/search/"]');
+        if (searchItem) {
+            const li = searchItem.closest('li');
+            if (li) {
+                li.innerHTML = `
+                    <a class="search-icon-btn" onclick="openSearchModal(); return false;" title="搜索 (Ctrl+K)">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                    </a>
+                `;
+            }
+        }
+    }
+
+    // 监听输入
+    const input = document.getElementById('modal-search-input');
+    let debounceTimer;
+
+    input.addEventListener('input', function(e) {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(() => {
+            performSearch(e.target.value);
+        }, 200);
+    });
+
+    // ESC 键关闭
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeSearchModal();
+        }
+        // Ctrl+K 打开搜索
+        if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+            e.preventDefault();
+            openSearchModal();
+        }
+    });
+});
+</script>

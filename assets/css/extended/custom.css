@@ -1,0 +1,22 @@
+/* 修复导航菜单溢出问题 */
+.header-nav {
+    flex-wrap: nowrap !important;
+}
+
+#menu {
+    flex-wrap: wrap !important;
+    gap: 0 8px;
+}
+
+#menu li {
+    white-space: nowrap;
+}
+
+/* 确保所有菜单项可见 */
+.menu {
+    overflow: visible !important;
+}
+
+.menu li {
+    display: inline-flex !important;
+}

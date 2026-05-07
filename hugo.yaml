@@ -128,6 +128,18 @@ outputs:
     - RSS
     - JSON
 
+related:
+  includeNewer: true
+  indices:
+    - name: tags
+      weight: 100
+    - name: categories
+      weight: 80
+    - name: date
+      weight: 10
+  threshold: 80
+  toLower: false
+
 markup:
   goldmark:
     renderer:

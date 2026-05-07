@@ -3,4 +3,14 @@
     overflow-x: visible !important;
     overflow-y: visible !important;
     flex-wrap: nowrap !important;
+    column-gap: 24px !important;
+    gap: 24px !important;
+}
+
+.menu li {
+    margin: 0 !important;
+}
+
+.menu a {
+    padding: 0 !important;
 }

@@ -1,0 +1,62 @@
+{{- $isArticle := and (eq .Kind "page") (ne .Layout "archives") (ne .Layout "search") -}}
+
+<aside class="sidebar-right{{ if $isArticle }} sidebar-right-article{{ end }}">
+    <div class="sidebar-right-inner">
+        {{- /* 搜索框 */}}
+        <div class="sidebar-search">
+            <input type="text" id="sidebar-search-input" class="sidebar-search-input"
+                   placeholder="搜索..." readonly
+                   onclick="openSearchModal(); this.blur();">
+            <span class="sidebar-search-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            </span>
+        </div>
+
+        {{- if not $isArticle }}
+        {{- /* 最近更新 */}}
+        {{- $recentPosts := first 5 (where site.RegularPages "Type" "in" site.Params.mainSections) }}
+        {{- with $recentPosts }}
+        <div class="sidebar-card">
+            <h3 class="sidebar-card-title">最近更新</h3>
+            <ul class="sidebar-recent-list">
+                {{- range . }}
+                <li>
+                    <a href="{{ .Permalink }}" class="sidebar-recent-item">
+                        <span class="sidebar-recent-title">{{ .Title }}</span>
+                        <span class="sidebar-recent-date">{{ .Date.Format "2006-01-02" }}</span>
+                    </a>
+                </li>
+                {{- end }}
+            </ul>
+        </div>
+        {{- end }}
+
+        {{- /* 热门标签 */}}
+        {{- $tags := slice }}
+        {{- range $name, $taxonomy := site.Taxonomies.tags }}
+            {{- $tags = $tags | append (dict "name" $name "count" (len $taxonomy)) }}
+        {{- end }}
+        {{- if gt (len $tags) 0 }}
+        <div class="sidebar-card">
+            <h3 class="sidebar-card-title">热门标签</h3>
+            <div class="sidebar-tags">
+                {{- range first 10 (sort $tags "count" "desc") }}
+                <a href="{{ (index site.Taxonomies.tags .name).Page.Permalink }}" class="sidebar-tag">
+                    {{ .name }}
+                    <span class="sidebar-tag-count">{{ .count }}</span>
+                </a>
+                {{- end }}
+            </div>
+        </div>
+        {{- end }}
+        {{- else }}
+        {{- /* 文章页：右侧显示 TOC */}}
+        <div class="sidebar-card sidebar-toc-container" id="sidebar-toc">
+            <h3 class="sidebar-card-title">目录</h3>
+            <div class="sidebar-toc-content">
+                {{- .TableOfContents }}
+            </div>
+        </div>
+        {{- end }}
+    </div>
+</aside>

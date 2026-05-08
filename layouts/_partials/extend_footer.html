@@ -1,1 +1,22 @@
 {{- partial "search_modal.html" . -}}
+
+{{- if (not site.Params.disableThemeToggle) }}
+<script>
+    (function() {
+        const sidebarToggle = document.getElementById('sidebar-theme-toggle');
+        const html = document.querySelector('html');
+
+        if (sidebarToggle) {
+            sidebarToggle.addEventListener('click', () => {
+                if (html.dataset.theme === 'dark') {
+                    html.dataset.theme = 'light';
+                    localStorage.setItem('pref-theme', 'light');
+                } else {
+                    html.dataset.theme = 'dark';
+                    localStorage.setItem('pref-theme', 'dark');
+                }
+            });
+        }
+    })();
+</script>
+{{- end }}

@@ -73,7 +73,7 @@
 }
 
 .sidebar-site-title {
-    font-size: 18px;
+    font-size: 20px;
     font-weight: 600;
     color: var(--primary);
     text-decoration: none;
@@ -298,7 +298,7 @@
 }
 
 .sidebar-card-title {
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 600;
     color: var(--primary);
     margin-bottom: 14px;

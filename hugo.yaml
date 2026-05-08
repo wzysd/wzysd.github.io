@@ -22,7 +22,7 @@ params:
   description: "记录数学、量化、AI、Agent、机器学习、深度学习与大模型的学习笔记"
   keywords: [量化, 人工智能, 机器学习, 深度学习, 大模型, Agent]
   author: "wzy"
-  defaultTheme: auto
+  defaultTheme: light
   disableThemeToggle: false
   math: true
 
@@ -115,12 +115,6 @@ menu:
       name: 关于
       url: /about/
       weight: 50
-    - identifier: search
-      name: 搜索
-      url: /search/
-      weight: 60
-      params:
-        type: search
 
 outputs:
   home:
